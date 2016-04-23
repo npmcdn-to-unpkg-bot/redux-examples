@@ -1,0 +1,61 @@
+<!doctype html>
+<html>
+
+  <head>
+
+    <script src="https://fb.me/react-0.14.8.js"></script>
+    <script src="https://fb.me/react-dom-0.14.8.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.23/browser.min.js"></script>
+    <script src="https://npmcdn.com/redux@latest/dist/redux.min.js"></script>
+    
+    <script src="https://npmcdn.com/expect/umd/expect.min.js"></script>
+  
+    <!-- <script src="https://wzrd.in/standalone/deep-freeze@latest"> -->
+  
+    
+    <script type="text/babel">
+  
+      const toggleTodo = (todo) => {
+        // this mutates so can't be used
+        /*
+        todo.completed = !todo.completed;
+        return todo;
+        */
+
+        return {
+          id: todo.id,
+          text: todo.text,
+          completed: !todo.completed
+        };
+      };
+
+      const testToggleTodo = () => {
+        const todoBefore = {
+          id: 0,
+          text: 'Learn Redux',
+          completed: false
+        };
+        const todoAfter = {
+          id: 0,
+          text: 'Learn Redux',
+          completed: true
+        };
+      
+        //Object.freeze(todoBefore);
+
+        expect(
+          toggleTodo(todoBefore)
+        ).toEqual(todoAfter);
+      };
+  
+      testToggleTodo();
+      console.log('All tests passed.');
+
+    </script>
+
+  </head>
+
+  <body>
+  </body>
+
+</html>

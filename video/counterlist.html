@@ -1,0 +1,104 @@
+<!doctype html>
+<html>
+
+  <head>
+
+    <script src="https://fb.me/react-0.14.8.js"></script>
+    <script src="https://fb.me/react-dom-0.14.8.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.23/browser.min.js"></script>
+    <script src="https://npmcdn.com/redux@latest/dist/redux.min.js"></script>
+    
+    <script src="https://npmcdn.com/expect/umd/expect.min.js"></script>
+  
+    <!-- <script src="https://wzrd.in/standalone/deep-freeze@latest"> -->
+  
+    
+    <script type="text/babel">
+  
+
+      const addCounter = (list) => {
+        //list.push(0);                  // this will mutate the array
+        //return list.concat([0]);     // concat does not mutate the original array
+        //return list;
+        return [...list, 0];         // concise ES6 way to concat an array
+
+        /*
+          ...
+          This is the spread operator. Expands an array into individual parameters when using the dots in a function call.
+        */
+      };
+
+      const removeCounter = (list, index) => {
+        //list.splice(index, 1);       // this will mutate the array
+        //return list;
+
+        /*
+        return list
+          .slice(0, index)
+          .concat(list.slice(index + 1));
+        */
+
+        // This writes the above more concisely
+        return [
+          ...list.slice(0, index),
+          ...list.slice(index + 1)
+        ];
+      };
+
+      const incrementCounter = (list, index) => {
+        //list[index]++;     // this will mutate the array
+        //return list;
+        return [
+          ...list.slice(0, index),
+          list[index] + 1,
+          ...list.slice(index + 1)
+        ]; 
+      };
+
+      const testAddCounter = () => {
+        const listBefore = [];
+        const listAfter = [0];
+  
+        Object.freeze(listBefore);    // this makes the array immutable
+  
+        expect(
+          addCounter(listBefore)
+        ).toEqual(listAfter);
+      };
+
+
+      const testRemoveCounter = () => {
+        const listBefore = [0, 10, 20];
+        const listAfter = [0, 20];
+
+        Object.freeze(listBefore);    // this makes the array immutable
+
+        expect(
+          removeCounter(listBefore, 1)
+        ).toEqual(listAfter);
+      };
+  
+     
+      const testIncrementCounter = () => {
+        const listBefore = [0, 10, 20];
+        const listAfter = [0, 11, 20];
+
+        Object.freeze(listBefore);    // this makes the array immutable
+        expect(
+          incrementCounter(listBefore, 1)
+        ).toEqual(listAfter);
+      };
+
+      testAddCounter();
+      testRemoveCounter();
+      testIncrementCounter();
+      console.log('All tests passed.');
+  
+    </script>
+
+  </head>
+
+  <body>
+  </body>
+
+</html>

@@ -1,0 +1,78 @@
+<!doctype html>
+<html>
+
+  <script src="https://fb.me/react-0.14.8.js"></script>
+  <script src="https://fb.me/react-dom-0.14.8.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.23/browser.min.js"></script>
+  <script src="https://npmcdn.com/redux@latest/dist/redux.min.js"></script>
+  
+  <script src="https://npmcdn.com/expect/umd/expect.min.js"></script>
+
+  <!-- ensures code is free of mutations -->
+  <script src="https://wzrd.in/standalone/deep-freeze@latest">
+
+  
+  <script type="text/babel">
+
+    const counter = (state = 0, action) => {
+      switch (action.type) {
+        case 'INCREMENT':
+          return state + 1;
+        case 'DECREMENT':
+          return state - 1;
+        default:
+          return state;
+      } 
+    }
+
+    /*
+      React component with buttons without hardcoding the redux dependencies
+    */
+    const Counter = ({
+      value,
+      onIncrement,
+      onDecrement
+    }) => (
+      <div>
+        <h1>{value}</h1>
+        <button onClick={onIncrement}>+</button>
+        <button onClick={onDecrement}>-</button>
+      </div>
+    );
+    
+    // Store binds together the 3 principals of redux
+    const { createStore } = Redux;
+    const store = createStore(counter);
+
+      //document.body.innerText = store.getState();
+    const render = () => {
+      ReactDOM.render(
+        <Counter 
+          value={store.getState()} 
+          onIncrement={() =>
+            store.dispatch({
+              type: 'INCREMENT'
+            })
+          }
+          onDecrement={() =>
+            store.dispatch({
+              type: 'DECREMENT'
+            })
+          }
+        />,
+        document.getElementById('root')
+      );
+    };
+    
+    store.subscribe(render);
+    render();
+    
+
+  </script>
+
+
+  <body>
+    <div id='root'></div>
+  </body>
+
+</html>

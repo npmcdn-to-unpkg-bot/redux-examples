@@ -1,0 +1,56 @@
+<!doctype html>
+<html>
+
+  <script src="https://fb.me/react-0.14.8.js"></script>
+  <script src="https://fb.me/react-dom-0.14.8.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.23/browser.min.js"></script>
+  <script src="https://npmcdn.com/redux@latest/dist/redux.min.js"></script>
+  
+  <script type="text/babel">
+
+    const counter = (state = 0, action) => {
+      switch (action.type) {
+        case 'INCREMENT':
+          return state + 1;
+        case 'DECREMENT':
+          return state -1;
+        default:
+          return state;
+      } 
+    }
+    
+    //const store = createStore(counter);
+    //console.log(store.getState());
+    
+    // Store binds together the 3 principals of redux
+    const { createStore } = Redux;
+    const store = createStore(counter);
+
+    const render = () => {
+      document.body.innerText = store.getState();
+    };
+    
+    store.subscribe(render);
+    render();
+    
+    //store.dispatch( { type: 'INCREMENT' } );   // let's actions to be dispatched to change state
+    //console.log(store.getState());    
+    
+    // Allows register callback method
+    //store.subscribe(() => {
+    //  document.body.innerText = store.getState();
+    //});
+    
+    document.addEventListener('click', () => {
+      store.dispatch({ type: 'INCREMENT' });
+    });
+
+
+  </script>
+
+
+  <body>
+
+  </body>
+
+</html>
